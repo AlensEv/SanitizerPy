@@ -3,7 +3,7 @@
 - Install Flask 
 
 ```bash
-pip install flask
+$ pip install flask
 
-```bash 
-pip install pandas
+
+$ pip install pandas
