@@ -1,9 +1,9 @@
 # SanitizerPy
 
-- Install Flask 
+- Install Flask  & Pandas
 
 ```bash
-$ pip install flask
+ pip install flask
 
 
-$ pip install pandas
+ pip install pandas
