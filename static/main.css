@@ -42,3 +42,26 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #0056b3;
 }
+
+#user-input {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 130%;
+}
+
+#user-input td, #user-input th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user-input tr:nth-child(even){background-color: #f2f2f2;}
+
+#user-input tr:hover {background-color: #ddd;}
+
+#user-input th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #040faa;
+  color: white;
+}

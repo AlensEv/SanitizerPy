@@ -1,11 +1,11 @@
-from flask import Flask, render_template, url_for, redirect, request, session
+from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 # import pandas as pd
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
-db = SQLAlchemy(app)
+sanitize = Flask(__name__)
+sanitize.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
+db = SQLAlchemy(sanitize)
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True )
@@ -17,10 +17,12 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
-
+@sanitize.route('/success')
+def success_page():
+    return render_template('index.html')
 
 def create_tables():
-    with app.app_context():
+    with sanitize.app_context():
         # Create all tables
         db.create_all()
 
@@ -32,9 +34,29 @@ def create_tables():
 #     sanitized_string = input_string.replace("<", "").replace(">", "")
 #     return sanitized_string
 
-@app.route('/')
+@sanitize.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('index.html')
+    if request.method == 'POST':
+        submission = request.form['content']
+        new_submission = Todo(content= submission)
+
+        try:
+            db.session.add(new_submission)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'Error'
+        
+
+        return redirect(url_for('success_page'))  # Redirect to a success page
+    else:
+        # Render the template for GET request
+        return render_template('index.html')
+
+
+
+
+
 
 # @app.route('/', methods=['POST'])
 # def process():
@@ -59,4 +81,4 @@ def index():
 #     return render_templates('display.html', data=df)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    sanitize.run(debug=True)

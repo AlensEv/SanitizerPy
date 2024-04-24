@@ -1,21 +1,40 @@
 {% extends 'base.html' %}
 <!-- jenji syntax -->
-{% block title %}Input Sanitization Project{% endblock %}
+{% block title %}Input Sanitization Project{% endblock %} {% block content %}
+<div class="container">
+  <h1>Input Sanitization Project</h1>
+  <form id="Userlogin"  action="/" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" placeholder="Enter your username" />
 
-{% block content %}
-  <div class="container">
-    <h1>Input Sanitization Project</h1>
-    <form id="Userlogin">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" placeholder="Enter your username">
-      
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email">
-      
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password">
-      
-      <input type="submit" value="Submit">
-    </form>
-  </div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" />
+
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+<div class="container">
+  <h1>Sanitized Input</h1>
+
+  <table id="user-input">
+    <tr>
+      <th>Original Input</th>
+      <th>Sanitized Input</th>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>
+        <a href=""> Delete</a>
+        <br />
+        <a href=""> Edit</a>
+      </td>
+    </tr>
+  </table>
+</div>
+
 {% endblock %}
