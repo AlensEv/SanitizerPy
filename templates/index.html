@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 <!-- jenji syntax -->
-{% block title %}Input Sanitization Project{% endblock %} {% block content %}
+{% block title %}Input Sanitization Project{% endblock %} 
+{% block content %}
 <div class="container">
   <h1>Input Sanitization Project</h1>
-  <form id="Userlogin"  action="/" method="POST">
+  <form id="Userlogin" action="/" method="POST">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Enter your username" />
 
@@ -22,18 +23,23 @@
 
   <table id="user-input">
     <tr>
-      <th>Original Input</th>
-      <th>Sanitized Input</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Actions</th>
     </tr>
+    {% for submission in submissions %}
     <tr>
-      <td></td>
-      <td></td>
+      <td>{{ submission.user_name }}</td>
+      <td>{{ submission.email }}</td>
+      <td>{{ submission.password }}</td>
       <td>
         <a href=""> Delete</a>
         <br />
         <a href=""> Edit</a>
       </td>
     </tr>
+    {% endfor %}
   </table>
 </div>
 

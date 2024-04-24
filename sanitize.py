@@ -8,10 +8,10 @@ sanitize.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
 db = SQLAlchemy(sanitize)
 
 class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True )
-    user_name = db.Column(db.String(700), nullable=False )
-    email = db.Column(db.String(700), nullable=False )
-    password = db.Column(db.String(700), nullable=False )
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(700), nullable=False)
+    email = db.Column(db.String(700), nullable=False)
+    password = db.Column(db.String(700), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -37,8 +37,14 @@ def create_tables():
 @sanitize.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        submission = request.form['content']
-        new_submission = Todo(content= submission)
+        # Get the form data
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Create a new Todo object with the form data
+        new_submission = Todo(user_name=username, email=email, password=password)
+        print("new sub")
 
         try:
             db.session.add(new_submission)
@@ -47,11 +53,14 @@ def index():
         except:
             return 'Error'
         
-
         return redirect(url_for('success_page'))  # Redirect to a success page
     else:
         # Render the template for GET request
-        return render_template('index.html')
+        # Fetch all submissions from the database
+        submissions = Todo.query.all()
+        print("I posted ")
+        # Render the template for GET request and pass the submissions to it
+        return render_template('index.html', submissions=submissions)
 
 
 
@@ -81,4 +90,4 @@ def index():
 #     return render_templates('display.html', data=df)
 
 if __name__ == '__main__':
-    sanitize.run(debug=True)
+    sanitize.run(debug=True , port=8080)
