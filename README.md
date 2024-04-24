@@ -15,3 +15,6 @@ To get started, follow these steps:
    ```bash
    pip install flask
    pip install pandas
+
+
+   Run; python3 sanitize.py
