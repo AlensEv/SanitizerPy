@@ -1,93 +1,79 @@
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-# import pandas as pd
+from flask_migrate import Migrate
 
-sanitize = Flask(__name__)
-sanitize.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
-db = SQLAlchemy(sanitize)
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Todo(db.Model):
+    __tablename__ = 'Todo'
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(700), nullable=False)
-    email = db.Column(db.String(700), nullable=False)
-    password = db.Column(db.String(700), nullable=False)
+    user_name = db.Column(db.String(700), nullable=True)
+    email = db.Column(db.String(700), nullable=True)
+    password = db.Column(db.String(700), nullable=True)
+    bad_user_name = db.Column(db.String(700), nullable=True)
+    bad_email = db.Column(db.String(700), nullable=True)
+    bad_password = db.Column(db.String(700), nullable=True)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    
 
     def __repr__(self):
         return '<Task %r>' % self.id
 
-@sanitize.route('/success')
+@app.route('/success')
 def success_page():
     return render_template('index.html')
 
 def create_tables():
-    with sanitize.app_context():
+    with app.app_context():
         # Create all tables
         db.create_all()
 
-
-
-# def sanitize_input(input_string):
-   
-   
-#     sanitized_string = input_string.replace("<", "").replace(">", "")
-#     return sanitized_string
-
-@sanitize.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         # Get the form data
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        
-        # Create a new Todo object with the form data
-        new_submission = Todo(user_name=username, email=email, password=password)
-        print("new sub")
 
-        try:
-            db.session.add(new_submission)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'Error'
+        temp_username = request.form['username']
+        temp_email = request.form['email']
+        temp_password = request.form['password']
+
+        # Create a new Todo object with the form data
+
+        new_submission = Todo(user_name=username, email=email, password=password, bad_user_name=temp_username, bad_email=temp_email, bad_password=temp_password )
+
+        db.session.add(new_submission)
+        print("new1")
+        # db.session.add(bad_submission)
+        print("new2")
+        db.session.commit()
+        print("new3")
+        return redirect('/')
+
+        # try:
+        #     # db.session.add(new_submission)
+        #     # print("new1")
+        #     # db.session.add(bad_submission)
+        #     # print("new2")
+        #     # db.session.commit()
+        #     # print("new3")
+        #     # return redirect('/')
         
-        return redirect(url_for('success_page'))  # Redirect to a success page
+        # except:
+        #     return 'Error'
+        
     else:
         # Render the template for GET request
         # Fetch all submissions from the database
         submissions = Todo.query.all()
-        print("I posted ")
-        # Render the template for GET request and pass the submissions to it
         return render_template('index.html', submissions=submissions)
 
-
-
-
-
-
-# @app.route('/', methods=['POST'])
-# def process():
-#     # Get user input from the form
-#     user_input = request.form['user_input']
-    
-#     # Sanitize the input
-#     sanitized_input = sanitize_input(user_input)
-    
-#     # Store the sanitized input in the CSV file
-#     with open('inputs.csv', 'a') as file:
-#         file.write(f"{user_input},{sanitized_input}\n")
-    
-#   #  return "Input sanitized and stored successfully!"
-
-# @app.route('/Userlogin')
-# def display():
-#     # Read the data from the CSV file
-#     df = pd.read_csv('inputs.csv', names=['user_input', 'sanitized_input'])
-    
-#     # Render the data in an HTML template
-#     return render_templates('display.html', data=df)
-
 if __name__ == '__main__':
-    sanitize.run(debug=True , port=8080)
+    app.run(debug=True , port=8080)

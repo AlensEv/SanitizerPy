@@ -5,7 +5,8 @@ body {
   background-color: #f4f4f4;
 }
 .container {
-  max-width: 600px;
+  min-width: fit-content;
+  max-width:600px;
   margin: 50px auto;
   padding: 20px;
   background-color: #fff;
@@ -46,7 +47,8 @@ input[type="submit"]:hover {
 #user-input {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 130%;
+  width: 100%; 
+  margin: 0 auto; 
 }
 
 #user-input td, #user-input th {

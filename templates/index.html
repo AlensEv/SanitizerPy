@@ -23,23 +23,28 @@
 
   <table id="user-input">
     <tr>
+      <th>BadUsername</th>
+      <th>BadEmail</th>
+      <th>BadPassword</th>
       <th>Username</th>
       <th>Email</th>
       <th>Password</th>
-      <th>Actions</th>
-    </tr>
-    {% for submission in submissions %}
-    <tr>
-      <td>{{ submission.user_name }}</td>
-      <td>{{ submission.email }}</td>
-      <td>{{ submission.password }}</td>
-      <td>
-        <a href=""> Delete</a>
-        <br />
-        <a href=""> Edit</a>
-      </td>
-    </tr>
-    {% endfor %}
+      
+      {% for submission in submissions %}
+      <tr>
+        <td>{{ submission.bad_user_name }}</td>
+        <td>{{ submission.bad_email }}</td>
+        <td>{{ submission.bad_password }}</td>
+        <td>{{ submission.user_name }}</td>
+        <td>{{ submission.email }}</td>
+        <td>{{ submission.password }}</td>
+        <td>
+          <a href=""> Delete</a>
+          <br />
+          <a href=""> Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
   </table>
 </div>
 
