@@ -17,4 +17,4 @@ To get started, follow these steps:
    pip install pandas
 
 
-   Run; python3 sanitize.py
+   Run: python3 sanitize.py
