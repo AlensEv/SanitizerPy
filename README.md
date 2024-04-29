@@ -15,6 +15,7 @@ To get started, follow these steps:
    ```bash
    pip install flask
    pip install pandas
+   pip install bleach
 
 
    Run: python3 sanitize.py
