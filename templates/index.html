@@ -39,9 +39,9 @@
         <td>{{ submission.email }}</td>
         <td>{{ submission.password }}</td>
         <td>
-          <a href=""> Delete</a>
+          <a href="{{ url_for('delete', id=submission.id) }}">Delete</a>
           <br />
-          <a href=""> Edit</a>
+          <a href="">  </a>
         </td>
       </tr>
       {% endfor %}

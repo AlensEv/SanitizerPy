@@ -28,6 +28,17 @@ class Todo(db.Model):
 def success_page():
     return render_template('index.html')
 
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    submission_to_delete = Todo.query.get_or_404(id)
+    try:
+        db.session.delete(submission_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'Error deleting submission'
+
+
 def create_tables():
     with app.app_context():
         # Create all tables
