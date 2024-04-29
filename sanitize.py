@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate
-
+import bleach
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sanitize.db'
@@ -46,7 +46,9 @@ def index():
         temp_password = request.form['password']
 
         # Create a new Todo object with the form data
-
+        username = bleach.clean(temp_username)
+        useremail = bleach.clean(temp_email)
+        password = bleach.clean(temp_password)
         new_submission = Todo(user_name=username, email=email, password=password, bad_user_name=temp_username, bad_email=temp_email, bad_password=temp_password )
 
         db.session.add(new_submission)
